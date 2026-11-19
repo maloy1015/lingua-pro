@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn() && request.auth.uid == uid && request.resource.data.role == 'student';
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.role == resource.data.role;
+      allow update, delete: if isAdmin();
+    }
+
+    // Public learning content: everyone signed in can read, only admin writes
+    match /courses/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /lessons/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /tests/{id}   { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /announcements/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
+
+    // Per-user data
+    match /users/{uid}/{sub=**} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+      allow read: if isAdmin();
+    }
+  }
+}

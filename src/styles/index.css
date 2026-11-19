@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body, #root { min-height: 100%; }
+body {
+  @apply bg-navy-950 text-slate-100 font-sans antialiased;
+  background-image:
+    radial-gradient(60rem 40rem at 10% -10%, rgba(139,92,246,.22), transparent 60%),
+    radial-gradient(50rem 36rem at 100% 0%, rgba(56,189,248,.16), transparent 60%),
+    radial-gradient(40rem 30rem at 50% 110%, rgba(217,70,239,.12), transparent 60%);
+  background-attachment: fixed;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(139,92,246,.4); border-radius: 8px; }
+
+@layer components {
+  .glass { @apply bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-3xl shadow-glass; }
+  .gradient-text { @apply bg-gradient-to-r from-neon-purple via-neon-pink to-neon-blue bg-clip-text text-transparent; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[.98]; }
+  .btn-primary { @apply btn bg-gradient-to-r from-neon-purple to-neon-blue text-white shadow-glow hover:brightness-110; }
+  .btn-ghost { @apply btn bg-white/5 border border-white/10 hover:bg-white/10; }
+  .field { @apply w-full rounded-2xl bg-navy-900/70 border border-white/10 px-4 py-3 text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-neon-purple focus:ring-2 focus:ring-neon-purple/30; }
+}

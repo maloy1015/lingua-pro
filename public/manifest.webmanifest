@@ -1,0 +1,16 @@
+{
+  "name": "LINGUA PRO",
+  "short_name": "LINGUA PRO",
+  "description": "Ingliz tili va matematikani noldan o'rganing",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#050816",
+  "theme_color": "#050816",
+  "lang": "uz",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
