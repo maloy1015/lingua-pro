@@ -9,21 +9,26 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
       allow create: if signedIn() && request.auth.uid == uid && request.resource.data.role == 'student';
-      allow update: if signedIn() && request.auth.uid == uid
-        && request.resource.data.role == resource.data.role;
+      allow update: if signedIn() && request.auth.uid == uid && request.resource.data.role == resource.data.role;
       allow update, delete: if isAdmin();
     }
 
-    // Public learning content: everyone signed in can read, only admin writes
+    // Per-user data (progress, attempts, notifications, tokens, prefs)
+    match /users/{uid}/{sub=**} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+      allow read: if isAdmin();
+    }
+
+    // Learning content
     match /courses/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
     match /lessons/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
     match /tests/{id}   { allow read: if signedIn(); allow write: if isAdmin(); }
     match /announcements/{id} { allow read: if signedIn(); allow write: if isAdmin(); }
 
-    // Per-user data
-    match /users/{uid}/{sub=**} {
-      allow read, write: if signedIn() && request.auth.uid == uid;
-      allow read: if isAdmin();
+    // Automated video generation queue
+    match /videoJobs/{id} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
     }
   }
 }
