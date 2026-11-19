@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { Logo } from '../components/ui'
 import { NAV, ADMIN_NAV } from '../data/nav'
 import VerifyBanner from '../components/VerifyBanner'
+import { InstallButton, UpdateBanner } from '../components/PWA'
 
 export default function AppLayout() {
   const { user, profile, isAdmin, logout } = useAuth()
@@ -41,6 +42,7 @@ export default function AppLayout() {
       <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-white/5 bg-navy-950/70 px-4 py-3 backdrop-blur-xl sm:px-8">
         <button className="btn-ghost !p-2.5 lg:hidden" onClick={() => setOpen(true)} aria-label="Menyu"><Menu className="h-5 w-5" /></button>
         <div className="flex-1" />
+        <InstallButton compact />
         <Link to="/notifications" className="btn-ghost !p-2.5" aria-label="Bildirishnomalar"><Bell className="h-5 w-5" /></Link>
         <Link to="/profile" className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 py-1.5 pl-1.5 pr-4">
           {profile?.photoURL
@@ -50,6 +52,7 @@ export default function AppLayout() {
         </Link>
       </header>
       <main className="mx-auto max-w-6xl p-4 sm:p-8">
+        <UpdateBanner />
         <VerifyBanner />
         <Outlet />
       </main>

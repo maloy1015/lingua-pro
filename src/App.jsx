@@ -9,16 +9,15 @@ import Onboarding from './pages/Onboarding'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
 import Settings from './pages/Settings'
-import ComingSoon from './pages/ComingSoon'
 import NotFound from './pages/NotFound'
-
-// Routes built in later stages render ComingSoon until implemented.
-const LATER = [
-  '/english', '/english/:level', '/english/lesson/:id', '/math', '/math/:topic',
-  '/exams', '/cefr', '/ielts', '/toefl',
-  '/skills/writing', '/skills/speaking', '/skills/listening', '/skills/reading',
-  '/placement-test', '/results', '/notifications',
-]
+import { EnglishHub, EnglishLevel, MathHub, MathLevel } from './pages/CoursePages'
+import LessonPage from './pages/LessonPage'
+import { ExamsHub, ExamSystemPage, ExamRunner } from './pages/Exams'
+import { WritingSkill, SpeakingSkill, ListeningSkill, ReadingSkill } from './pages/Skills'
+import PlacementTest from './pages/PlacementTest'
+import Results from './pages/Results'
+import Notifications from './pages/Notifications'
+import Admin from './pages/Admin'
 
 export default function App() {
   return (
@@ -38,15 +37,33 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/english" element={<EnglishHub />} />
+          <Route path="/english/:level" element={<EnglishLevel />} />
+          <Route path="/english/lesson/:id" element={<LessonPage subject="english" />} />
+          <Route path="/math" element={<MathHub />} />
+          <Route path="/math/:topic" element={<MathLevel />} />
+          <Route path="/math/lesson/:id" element={<LessonPage subject="math" />} />
+          <Route path="/exams" element={<ExamsHub />} />
+          <Route path="/exams/:system" element={<ExamSystemPage />} />
+          <Route path="/exams/:system/:section" element={<ExamRunner />} />
+          <Route path="/cefr" element={<Navigate to="/exams/cefr" replace />} />
+          <Route path="/ielts" element={<Navigate to="/exams/ielts" replace />} />
+          <Route path="/toefl" element={<Navigate to="/exams/toefl" replace />} />
+          <Route path="/skills/writing" element={<WritingSkill />} />
+          <Route path="/skills/speaking" element={<SpeakingSkill />} />
+          <Route path="/skills/listening" element={<ListeningSkill />} />
+          <Route path="/skills/reading" element={<ReadingSkill />} />
+          <Route path="/placement-test" element={<PlacementTest />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
-          {LATER.map((p) => <Route key={p} path={p} element={<ComingSoon />} />)}
         </Route>
       </Route>
 
       <Route element={<ProtectedRoute adminOnly />}>
         <Route element={<AppLayout />}>
-          <Route path="/admin" element={<ComingSoon />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Route>
 
